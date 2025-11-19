@@ -94,24 +94,66 @@
       ]
     ],
     align(center + horizon)[
-      // --- ZONA DE IMAGEN ---
-      #rect(
-        width: 100%, 
-        height: 60%, 
-        fill: rgb("#24283b"), 
-        radius: 10pt, 
-        stroke: (paint: rgb("#565f89"), dash: "dashed")
-      )[
-        #align(center + horizon)[
-          #text(fill: rgb("#565f89"))[
-            INSERTAR IMAGEN\
-            (Esquema Botnet)
-          ]
-        ]
-      ]
+      // --- ESQUEMA BOTNET ---
+      #block(
+        fill: rgb("#16161e"),
+        inset: 1em,
+        radius: 12pt,
+        stroke: (paint: rgb("#565f89"), thickness: 1pt),
+        width: 100%,
+        stack(
+          dir: ttb,
+          spacing: 0.5em,
+
+          // 1. El Atacante (Botmaster)
+          stack(dir: ttb, spacing: 0.3em,
+            circle(radius: 12pt, fill: rgb("#f7768e"), stroke: 2pt + rgb("#24283b")),
+            text(size: 0.6em, fill: rgb("#f7768e"), weight: "bold")[Atacante]
+          ),
+
+          // Flecha de Comando (C&C)
+          text(fill: rgb("#565f89"), size: 0.8em)[$ arrow.b $],
+
+          // 2. La Botnet (Tus compañeros)
+          block(
+            stroke: (paint: rgb("#7aa2f7"), dash: "dashed"),
+            radius: 8pt,
+            inset: 0.8em,
+            fill: rgb("#24283b"),
+            stack(dir: ttb, spacing: 0.5em,
+                grid(
+                    columns: (1fr, 1fr, 1fr),
+                    gutter: 0.5em,
+                    circle(radius: 7pt, fill: rgb("#7aa2f7")),
+                    circle(radius: 7pt, fill: rgb("#7aa2f7")),
+                    circle(radius: 7pt, fill: rgb("#7aa2f7")),
+                ),
+                text(size: 0.6em, fill: rgb("#7aa2f7"))[Botnet]
+            )
+          ),
+
+          // 3. El Ataque (Múltiples vectores)
+          grid(
+            columns: (1fr, 1fr, 1fr),
+            text(fill: rgb("#f7768e"), weight: "bold")[$ arrow.b $],
+            text(fill: rgb("#f7768e"), weight: "bold")[$ arrow.b.double $],
+            text(fill: rgb("#f7768e"), weight: "bold")[$ arrow.b $],
+          ),
+
+          // 4. El Objetivo (Target)
+          block(
+            fill: rgb("#f7768e"),
+            inset: 0.6em,
+            radius: 4pt,
+            width: 60%,
+            text(size: 0.7em, weight: "bold", fill: rgb("#1a1b26"))[TARGET]
+          )
+        )
+      )
     ]
   )
 ]
+
 
 #slide[
   #align(center)[= El Principio de Asimetría]
