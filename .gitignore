@@ -1,0 +1,6 @@
+*.log
+*.session
+script.sh
+attack.py
+__pycache__/
+*.pyc
