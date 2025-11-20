@@ -8,7 +8,7 @@ TARGET_PORT = 80
 
 # Endpoint vulnerable a RAM
 TARGET_URL = f"http://{TARGET_HOST}:{TARGET_PORT}/allocations"
-CONCURRENCIA = 70
+CONCURRENCIA = 120
 ATAQUES=50
 
 def atacar():

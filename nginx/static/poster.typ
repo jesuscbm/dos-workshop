@@ -11,7 +11,7 @@
 #let c_alert   = rgb("#f7768e") // Rojo
 #let c_warn    = rgb("#e0af68") // Naranja
 #let c_success = rgb("#9ece6a") // Verde
-#let c_muted   = rgb("#565f89")
+#let c_muted   = rgb("#767fc9")
 
 // --- DISEÑO ---
 
@@ -31,37 +31,32 @@
   // 2. TÍTULO GIGANTE
   #align(center)[
     #text(size: 8em, weight: "bold", fill: c_accent)[TALLER DoS]
-    #v(-1em)
-    #text(size: 3em, weight: "bold", fill: c_muted)[Agotamiento de Recursos de Capa 7]
+    #v(-2em)
+    #text(size: 3.3em, weight: "bold", fill: c_muted)[Agotamiento de Recursos de Capa 7]
   ]
 
   #v(3em)
 
   // 3. GANCHO Y DESCRIPCIÓN
   #grid(
-    columns: (1fr, 1.2fr),
-    gutter: 3em,
+    columns: (1.3fr, 1fr),
+    gutter: 1em,
     
     // COLUMNA IZQUIERDA: TEXTO
     align(horizon)[
-      #text(size: 2.2em, weight: "bold", fill: c_text)[
-        Ataque y Defensa de Infraestructuras Web.
+      #text(size: 2.4em, fill: c_muted)[
+        Identificación, explotación y mitigación en APIs modernas.
       ]
-      #v(1.5em)
-      #text(size: 1.4em, fill: c_muted)[
-        Aprende a identificar, explotar y mitigar vulnerabilidades de agotamiento de recursos en APIs modernas.
-      ]
-      #v(1.5em)
+      #v(1em)
       
-      // FIX: Lista separada por comas para que se renderice bien
       #list(
-        marker: text(fill: c_success)[✔], 
+        marker: text(fill: c_success, size: 2em)[✔], 
         indent: 0.5em,
         spacing: 1em,
-        [#text(size: 1.3em)[Arquitectura Botnet C&C]],
-        [#text(size: 1.3em)[HTTP Flooding & SSRF]],
-        [#text(size: 1.3em)[Docker & Nginx Hardening]],
-        [#text(size: 1.3em)[Hacking Ético en Entorno Real]]
+        [#text(size: 2.2em)[Arquitectura Botnet C&C]],
+        [#text(size: 2.2em)[HTTP Flooding & SSRF]],
+        [#text(size: 2.2em)[Docker & Nginx Hardening]],
+        [#text(size: 2.2em)[Hacking Ético en Entorno Real]]
       )
     ],
 
@@ -73,18 +68,19 @@
       inset: 2em,
       width: 100%,
       [
-        #text(size: 1.2em, fill: c_success)[user\@seif:~/botnet\$] #text(size: 1.2em)[python3 attack.py --target 192.168.1.10] \
-        #v(0.5em)
-        #text(size: 1.1em, fill: c_muted)[[\*] Loading payload: Resource Exhaustion...] \
-        #text(size: 1.1em, fill: c_muted)[[\*] Connecting to 50 zombies...] \
-        #text(size: 1.1em, fill: c_muted)[[\*] Target status: ONLINE (200 OK)] \
-        #text(size: 1.1em, fill: c_success)[> LAUNCHING ATTACK SEQUENCE...] \
-        #v(0.5em)
-        #text(size: 1.1em, fill: c_alert)[ ERR_CONNECTION_TIMED_OUT (504)] \
-        #text(size: 1.1em, fill: c_alert)[ SERVICE UNAVAILABLE (503)] \
-        #text(size: 1.1em, fill: c_alert)[ SYSTEM CRASH DETECTED.] \
-        #v(0.5em)
-        #text(size: 1.2em, fill: c_success)[user\@seif:~/botnet\$] \_
+        #text(size: 1.5em, fill: c_success)[user\@seif:~/botnet\$] #text(size: 1.4em)[python3 attack.py --target 192.168.1.10] \
+        #v(1em)
+        #text(size: 1.4em, fill: c_muted)[[\*] Loading payload: Resource Exhaustion...] \
+        #text(size: 1.4em, fill: c_muted)[[\*] Connecting to 50 zombies...] \
+        #text(size: 1.4em, fill: c_muted)[[\*] Target: ONLINE (200 OK)] \
+        #v(1em)
+        #text(size: 1.4em, fill: c_success)[> LAUNCHING ATTACK SEQUENCE...] \
+        #v(1em)
+        #text(size: 1.4em, fill: c_alert)[ ERR_CONNECTION_TIMED_OUT (504)] \
+        #text(size: 1.4em, fill: c_alert)[ SERVICE UNAVAILABLE (503)] \
+        #text(size: 1.4em, fill: c_alert)[ SYSTEM CRASH DETECTED.] \
+        #v(1em)
+        #text(size: 1.4em, fill: c_success)[user\@seif:~/botnet\$] \_
         #place(bottom + right, dy: 1em, dx: 1em)[
            #text(size: 5em, fill: rgb(255, 255, 255, 20))[☠]
         ]
@@ -92,45 +88,59 @@
     )
   )
 
-  #v(6em) // Espacio ajustado
+  #v(2em)
 
-  // 4. CAJA DE REQUISITOS
+  // 4. CAJA DE ORGANIZACIÓN (LOGO)
+  #align(center)[
+    #block(
+        fill: c_dark,
+        stroke: (paint: c_muted, thickness: 2pt),
+        radius: 16pt,
+        inset: 2em,
+        width: 50%, 
+        stack(
+            dir: ttb,
+            spacing: 1em,
+            text(size: 1.5em, weight: "bold", fill: c_muted)[ORGANIZADO POR],
+            image("logo.png", height: 13em, fit: "contain"),
+        )
+    )
+  ]
+
+  #v(2em)
+
+  // 5. CAJA DE REQUISITOS (AUMENTADO)
   #align(center)[
     #block(
       fill: c_block,
       stroke: (paint: c_accent, thickness: 2pt, dash: "dashed"),
       radius: 8pt,
-      inset: 1.5em,
-      width: 90%,
+      inset: 2em,
+      width: 95%,
       [
-        #text(size: 1.5em, weight: "bold", fill: c_accent)[REQUISITOS DEL SISTEMA:]
+        #text(size: 2em, weight: "bold", fill: c_accent)[REQUISITOS:]
         #h(1em)
-        #text(size: 1.3em)[Portátil (Linux/Win/Mac) + Python 3 + Ganas de romper cosas]
+        #text(size: 1.8em)[Portátil (Linux/Win/Mac) + Python 3 + Ganas de romper cosas]
       ]
     )
   ]
   
-  #v(1fr) // Empuja lo siguiente al fondo
+  #v(1fr)
 
-  // 5. FOOTER CON LOGÍSTICA (A Rellenar)
+  // 6. FOOTER CON LOGÍSTICA (AUMENTADO)
   #grid(
-    columns: (1fr, 1fr, 1fr),
+    columns: (1fr, 1fr),
     align(center)[
-      #text(size: 1.5em, fill: c_muted)[CUÁNDO] \
+      #text(size: 2em, fill: c_muted)[CUÁNDO] \
       #v(0.2em)
-      #text(size: 2em, weight: "bold", fill: c_text)[28 DE NOV] \
-      #text(size: 1.5em, weight: "bold", fill: c_text)[13:00 H - 15:00 H]
+      #text(size: 3em, weight: "bold", fill: c_text)[28 DE NOV] \
+      #text(size: 2.2em, weight: "bold", fill: c_text)[13:00 H - 15:00 H]
     ],
     align(center)[
-      #text(size: 1.5em, fill: c_muted)[DÓNDE] \
+      #text(size: 2em, fill: c_muted)[DÓNDE] \
       #v(0.2em)
-      #text(size: 2em, weight: "bold", fill: c_text)[AULA XX] \
-      #text(size: 1.2em, fill: c_text)[Escuela Politécnica]
-    ],
-    align(center)[
-      #text(size: 1.5em, fill: c_muted)[ORGANIZA] \
-      #v(0.2em)
-      #text(size: 2.5em, weight: "bold", fill: c_accent)[SEIF]
+      #text(size: 3em, weight: "bold", fill: c_text)[AULA XX] \
+      #text(size: 2.2em, fill: c_text)[Escuela Politécnica]
     ]
   )
 ]
