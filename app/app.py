@@ -31,14 +31,14 @@ def check_service():
         # un socket abierto que no envía datos (netcat), el worker se bloquea 
         # durante 5 segundos esperando.
         # requests no es async, así que bloquea todo el proceso/hilo.
-        resp = requests.get(target, timeout=5)
+        resp = requests.get(target, timeout=3)
         return jsonify({
             "target": target, 
             "status": "alive", 
             "code": resp.status_code
         })
     except requests.exceptions.Timeout:
-        return jsonify({"error": "Target timed out (Worker blocked for 5s)"}), 504
+        return jsonify({"error": "Target timed out (Worker blocked for 3s)"}), 504
     except requests.exceptions.RequestException as e:
         return jsonify({"error": "Unreachable", "details": str(e)}), 502
 
