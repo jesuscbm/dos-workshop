@@ -18,7 +18,6 @@ def health_check():
 @app.route("/monitor", methods=["GET"])
 def check_service():
     usage_guide = {
-        "error": "Faltan argumentos",
         "usage": "GET /monitor?target=<url>",
         "description": "Comprueba el estado de un servicio remoto mediante una request GET."
     }
@@ -47,7 +46,6 @@ def check_service():
 @app.route("/pi", methods=["GET"])
 def get_pi():
     usage_guide = {
-        "error": "Faltan argumentos",
         "usage": "GET /pi?iterations=<int>",
         "description": "Calcula Pi usando Monte Carlo."
     }
@@ -60,6 +58,9 @@ def get_pi():
         iterations = int(iterations_str)
     except ValueError:
         return jsonify({"error": "iterations debe ser int", "help": usage_guide}), 400
+
+    if iterations >= 10000000:
+        return jsonify({"error": "iterations demasiado alto", "help": usage_guide}), 400
 
     def compute_pi(limit):
         inside_circle = 0
@@ -86,7 +87,6 @@ def get_pi():
 @app.route("/allocations", methods=["POST"])
 def create_allocation():
     usage_guide = {
-        "error": "Argumentos faltantes",
         "usage": "POST /allocations", 
         "headers": {"Content-Type": "application/json"},
         "body_required": {"mb": "int (max 500)"},

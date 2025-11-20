@@ -63,19 +63,23 @@ The victim environment. A vulnerable RESTful Flask API served via Gunicorn and p
 
 ### 2. Basic Botnet (`/bot`)
 
-Tools for students to execute attacks, manage a botnet, or fuzz endpoints.
+Software for a server with easy code injection
 
   * **`bot/`**: To be run in the controllable server
       * `app.py`: **Injectable server**. Code to run on the vulnerable bot. 
+      * `docker-compose.yml`: Builds and starts the server in a docker.
 
 ### 3. Resources (`/nginx/static`)
 
+Resources for the attendees to be able to coordinate the attack.
+
   * **`nginx/static`**: Downloadable resources for attendees. Nginx will serve this folder 
       * [`presentacion.pdf`](nginx/static/presentacion.pdf): **Slideshow in Spanish**. Contains some information on DoS and HTTP.
-      * `presentacion.typ`: To compile the Slideshow
+      * `presentacion.typ`: To compile the Slideshow with Typst.
       * `cnc.py`: **Master Server**. The script run to control their bots. Accepts connections from bots and starts the attack.
       * `bot.py`: **Payload/Zombie**. The script to be "injected" or run on zombie machines. Connects to C&C and awaits attack orders.
-      * `wordlist.txt`: Wordlist for discovering vulnerable endpoints.
+      * `fuzzer.py`: **Fuzzer**. Python script that receives a URL and a wordlist and looks for endpoints.
+      * `wordlist.txt`: **Wordlist**. Wordlist for discovering vulnerable endpoints.
 
 ## Quick Start
 

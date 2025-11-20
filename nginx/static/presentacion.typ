@@ -1,25 +1,38 @@
 #import "@preview/polylux:0.4.0": *
 
+// --- COLORES (Tokyo Night Theme) ---
+#let c_bg      = rgb("#1a1b26") // Fondo Principal
+#let c_text    = rgb("#a9b1d6") // Texto Principal
+#let c_accent  = rgb("#7aa2f7") // Azul (Acentos)
+#let c_alert   = rgb("#f7768e") // Rojo (Alertas)
+#let c_success = rgb("#9ece6a") // Verde (Éxito/Código)
+#let c_warning = rgb("#e0af68") // Naranja (Avisos)
+#let c_muted   = rgb("#565f89") // Gris/Azul apagado (Bordes, Comentarios)
+#let c_block   = rgb("#24283b") // Fondo de Bloques/Cajas
+#let c_code_bg = rgb("#16161e") // Fondo de Terminal/Código
+#let c_code    = rgb("#c0caf5") // Texto de Código
+#let c_header  = rgb("#414868") // Fondo de Cabeceras (OSI)
+
 // Configuración Visual "Dark Mode"
-#set page(paper: "presentation-16-9", fill: rgb("#1a1b26"))
-#set text(font: "FiraCode Nerd Font Mono", fill: rgb("#a9b1d6"), size: 20pt)
+#set page(paper: "presentation-16-9", fill: c_bg)
+#set text(font: "FiraCode Nerd Font Mono", fill: c_text, size: 20pt)
 
 // Funciones auxiliares para estilo
-#let accent(it) = text(fill: rgb("#7aa2f7"), weight: "bold", it)
-#let alert(it) = text(fill: rgb("#f7768e"), weight: "bold", it)
+#let accent(it) = text(fill: c_accent, weight: "bold", it)
+#let alert(it) = text(fill: c_alert, weight: "bold", it)
 #let code_block(it) = block(
-  fill: rgb("#24283b"),
+  fill: c_block,
   inset: 10pt,
   radius: 4pt,
   width: 100%,
-  text(fill: rgb("#c0caf5"), font: "FiraCode Nerd Font Mono", size: 16pt, it)
+  text(fill: c_code, font: "FiraCode Nerd Font Mono", size: 16pt, it)
 )
 
 // --- INICIO PRESENTACIÓN ---
 
 #slide[
   #align(center + horizon)[
-    #text(size: 2em, weight: "bold", fill: rgb("#7aa2f7"))[Taller DoS]
+    #text(size: 2em, weight: "bold", fill: c_accent)[Taller DoS]
     
     #v(1em)
     Protocolos y agotamiento de recursos
@@ -37,30 +50,30 @@
     columns: (1fr, 1fr, 1fr),
     gutter: 0.8em,
     align(center + horizon)[
-      #box(stroke: 2pt + rgb("#565f89"), inset: 15pt, radius: 5pt)[
+      #box(stroke: 2pt + c_muted, inset: 15pt, radius: 5pt)[
         #text(size: 0.8em)[Confidencialidad]
       ]
     ],
     align(center + horizon)[
-      #box(stroke: 2pt + rgb("#565f89"), inset: 15pt, radius: 5pt)[
+      #box(stroke: 2pt + c_muted, inset: 15pt, radius: 5pt)[
         #text(size: 0.8em)[Integridad]
       ]
     ],
     align(center + horizon)[
-      #box(fill: rgb("#f7768e"), inset: 15pt, radius: 5pt)[
-        #text(fill: rgb("#1a1b26"), weight: "bold", size: 0.8em)[Disponibilidad]
+      #box(fill: c_alert, inset: 15pt, radius: 5pt)[
+        #text(fill: c_bg, weight: "bold", size: 0.8em)[Disponibilidad]
       ]
     ]
   )
 
   #v(0.5em)
   #align(center)[
-    #text(size: 1.5em, fill: rgb("#f7768e"))[$ arrow.b $]
+    #text(size: 1.5em, fill: c_alert)[$ arrow.b $]
   ]
   #v(0.5em)
 
   #align(center)[
-    #box(fill: rgb("#24283b"), inset: 1em, radius: 5pt, width: 95%)[
+    #box(fill: c_block, inset: 1em, radius: 5pt, width: 95%)[
       #accent[Denial of Service (DoS)] \
       #v(0.2em)
       #text(size: 0.8em)[
@@ -96,10 +109,10 @@
     align(center + horizon)[
       // --- ESQUEMA BOTNET ---
       #block(
-        fill: rgb("#16161e"),
+        fill: c_code_bg,
         inset: 1em,
         radius: 12pt,
-        stroke: (paint: rgb("#565f89"), thickness: 1pt),
+        stroke: (paint: c_muted, thickness: 1pt),
         width: 100%,
         stack(
           dir: ttb,
@@ -107,49 +120,103 @@
 
           // 1. El Atacante (Botmaster)
           stack(dir: ttb, spacing: 0.3em,
-            circle(radius: 12pt, fill: rgb("#f7768e"), stroke: 2pt + rgb("#24283b")),
-            text(size: 0.6em, fill: rgb("#f7768e"), weight: "bold")[Atacante]
+            circle(radius: 12pt, fill: c_alert, stroke: 2pt + c_block),
+            text(size: 0.6em, fill: c_alert, weight: "bold")[Atacante]
           ),
 
           // Flecha de Comando (C&C)
-          text(fill: rgb("#565f89"), size: 0.8em)[$ arrow.b $],
+          text(fill: c_muted, size: 0.8em)[$ arrow.b $],
 
           // 2. La Botnet (Tus compañeros)
           block(
-            stroke: (paint: rgb("#7aa2f7"), dash: "dashed"),
+            stroke: (paint: c_accent, dash: "dashed"),
             radius: 8pt,
             inset: 0.8em,
-            fill: rgb("#24283b"),
+            fill: c_block,
             stack(dir: ttb, spacing: 0.5em,
                 grid(
                     columns: (1fr, 1fr, 1fr),
                     gutter: 0.5em,
-                    circle(radius: 7pt, fill: rgb("#7aa2f7")),
-                    circle(radius: 7pt, fill: rgb("#7aa2f7")),
-                    circle(radius: 7pt, fill: rgb("#7aa2f7")),
+                    circle(radius: 7pt, fill: c_accent),
+                    circle(radius: 7pt, fill: c_accent),
+                    circle(radius: 7pt, fill: c_accent),
                 ),
-                text(size: 0.6em, fill: rgb("#7aa2f7"))[Botnet]
+                text(size: 0.6em, fill: c_accent)[Botnet]
             )
           ),
 
           // 3. El Ataque (Múltiples vectores)
           grid(
             columns: (1fr, 1fr, 1fr),
-            text(fill: rgb("#f7768e"), weight: "bold")[$ arrow.b $],
-            text(fill: rgb("#f7768e"), weight: "bold")[$ arrow.b.double $],
-            text(fill: rgb("#f7768e"), weight: "bold")[$ arrow.b $],
+            text(fill: c_alert, weight: "bold")[$ arrow.b $],
+            text(fill: c_alert, weight: "bold")[$ arrow.b.double $],
+            text(fill: c_alert, weight: "bold")[$ arrow.b $],
           ),
 
           // 4. El Objetivo (Target)
           block(
-            fill: rgb("#f7768e"),
+            fill: c_alert,
             inset: 0.6em,
             radius: 4pt,
             width: 60%,
-            text(size: 0.7em, weight: "bold", fill: rgb("#1a1b26"))[TARGET]
+            text(size: 0.7em, weight: "bold", fill: c_bg)[TARGET]
           )
         )
       )
+    ]
+  )
+]
+
+#slide[
+  #align(center)[= Botnets: Infraestructura Distribuida]
+  #v(1em)
+
+  #grid(
+    columns: (1.3fr, 0.7fr),
+    gutter: 2em,
+    align(horizon)[
+      #block(fill: c_block, inset: 1em, radius: 8pt, width: 100%)[
+        #accent[Definición] \
+        #v(0.2em)
+        #text(size: 0.8em)[Red de dispositivos infectados ("Zombies") operados por un actor central ("Botmaster") sin el conocimiento de sus propietarios.]
+      ]
+      
+      #v(1em)
+      
+      #text(size: 0.75em)[
+        - *Amplificación:* 1 Orden $->$ N Ataques.
+        - *Anonimato:* El tráfico no viene del atacante.
+        - *Resiliencia:* Si un nodo cae, quedan miles.
+      ]
+    ],
+    
+    align(center + horizon)[
+      #block(
+        stroke: (paint: c_muted, dash: "dashed"), 
+        radius: 8pt, 
+        inset: 1em,
+        fill: c_code_bg
+      )[
+        #stack(dir: ttb, spacing: 0.3em,
+          // Botmaster
+          circle(radius: 12pt, fill: c_alert),
+          text(size: 0.6em, fill: c_alert, weight: "bold")[Botmaster],
+          
+          v(0.2em),
+          text(fill: c_muted)[$ arrow.b $],
+          v(0.2em),
+          
+          // Bots Grid
+          grid(
+            columns: (1fr, 1fr, 1fr),
+            gutter: 0.5em,
+            circle(radius: 8pt, fill: c_accent),
+            circle(radius: 8pt, fill: c_accent),
+            circle(radius: 8pt, fill: c_accent)
+          ),
+          text(size: 0.6em, fill: c_accent)[Zombies]
+        )
+      ]
     ]
   )
 ]
@@ -162,10 +229,10 @@
   #grid(
     columns: (1fr, 0.2fr, 1fr),
     align(top + center)[
-      #text(weight: "bold", fill: rgb("#7aa2f7"))[Cliente (Tú)]
+      #text(weight: "bold", fill: c_accent)[Cliente (Tú)]
       #v(.5em)
       #block(
-        fill: rgb("#24283b"), inset: 15pt, radius: 8pt, width: 100%,
+        fill: c_block, inset: 15pt, radius: 8pt, width: 100%,
         height: 9em, // Altura fija
         align(center + horizon)[#text(size: .9em)[
           Generar Texto \
@@ -182,10 +249,10 @@
     align(horizon + center)[#text(size: 2em)[$>>$]],
 
     align(top + center)[
-      #text(weight: "bold", fill: rgb("#f7768e"))[Servidor (Víctima)]
+      #text(weight: "bold", fill: c_alert)[Servidor (Víctima)]
       #v(.5em)
       #block(
-        fill: rgb("#24283b"), inset: 15pt, radius: 8pt, width: 100%,
+        fill: c_block, inset: 15pt, radius: 8pt, width: 100%,
         height: 9em, // Altura fija
         align(left + horizon)[#text(size: .9em)[
           1. Parsear TCP/HTTP \
@@ -211,7 +278,7 @@
     inset: 0.6em,
     radius: 4pt,
     width: 70%,
-    stroke: if bg_color == rgb("#24283b") { 1pt + rgb("#565f89") } else { none },
+    stroke: if bg_color == c_block { 1pt + c_muted } else { none },
     grid(
       columns: (1fr, 3fr, 2fr),
       align(horizon + left)[#text(weight: "bold", fill: text_color)[L#num]],
@@ -225,19 +292,19 @@
       dir: ttb,
       spacing: 0.3em,
       // L7: Objetivo de hoy (Resaltado fuerte)
-      osi_layer(7, "Aplicación", "HTTP, DNS", rgb("#7aa2f7"), rgb("#1a1b26")),
+      osi_layer(7, "Aplicación", "HTTP, DNS", c_accent, c_bg),
       
       // L6-L5: Irrelevantes hoy (Apagadas)
-      osi_layer(6, "Presentación", "SSL/TLS", rgb("#24283b"), rgb("#565f89")),
-      osi_layer(5, "Sesión", "Sockets", rgb("#24283b"), rgb("#565f89")),
+      osi_layer(6, "Presentación", "SSL/TLS", c_block, c_muted),
+      osi_layer(5, "Sesión", "Sockets", c_block, c_muted),
       
       // L4-L3: Vectores clásicos (Resaltado medio)
-      osi_layer(4, "Transporte", "TCP, UDP", rgb("#414868"), rgb("#c0caf5")),
-      osi_layer(3, "Red", "IP, ICMP", rgb("#414868"), rgb("#c0caf5")),
+      osi_layer(4, "Transporte", "TCP, UDP", c_header, c_code),
+      osi_layer(3, "Red", "IP, ICMP", c_header, c_code),
       
       // L2-L1: Infraestructura (Apagadas)
-      osi_layer(2, "Enlace", "MAC, ARP", rgb("#24283b"), rgb("#565f89")),
-      osi_layer(1, "Física", "Cable, WiFi", rgb("#24283b"), rgb("#565f89")),
+      osi_layer(2, "Enlace", "MAC, ARP", c_block, c_muted),
+      osi_layer(1, "Física", "Cable, WiFi", c_block, c_muted),
     )
   ]
 ]
@@ -252,10 +319,10 @@
     
     // --- BLOQUE IZQUIERDO: L3/L4 ---
     block(
-      fill: rgb("#24283b"),
+      fill: c_block,
       inset: 1em,
       radius: 8pt,
-      stroke: (paint: rgb("#565f89"), thickness: 1pt),
+      stroke: (paint: c_muted, thickness: 1pt),
       width: 100%,
       height: 11em 
     )[
@@ -270,22 +337,22 @@
       ]
       #v(1em)
       #align(center + bottom)[
-        #rect(fill: rgb("#1a1b26"), inset: 5pt, radius: 4pt)[
-          #text(fill: rgb("#565f89"), size: 0.7em)[Descartado: Colapsa WiFi]
+        #rect(fill: c_bg, inset: 5pt, radius: 4pt)[
+          #text(fill: c_muted, size: 0.7em)[Descartado: Colapsa WiFi]
         ]
       ]
     ],
 
     // --- BLOQUE DERECHO: L7 ---
     block(
-      fill: rgb("#1a1b26"),
+      fill: c_bg,
       inset: 1em,
       radius: 8pt,
-      stroke: (paint: rgb("#f7768e"), thickness: 2pt),
+      stroke: (paint: c_alert, thickness: 2pt),
       width: 100%,
       height: 11em
     )[
-      #align(center)[#text(weight: "bold", size: 1.1em, fill: rgb("#f7768e"))[Agotamiento (L7)]]
+      #align(center)[#text(weight: "bold", size: 1.1em, fill: c_alert)[Agotamiento (L7)]]
       #v(0.5em)
       #align(left)[
         #text(size: 0.85em)[
@@ -296,8 +363,8 @@
       ]
       #v(1em)
       #align(center + bottom)[
-        #rect(fill: rgb("#f7768e"), inset: 5pt, radius: 4pt)[
-          #text(fill: rgb("#1a1b26"), weight: "bold", size: 0.7em)[OBJETIVO DEL TALLER]
+        #rect(fill: c_alert, inset: 5pt, radius: 4pt)[
+          #text(fill: c_bg, weight: "bold", size: 0.7em)[OBJETIVO DEL TALLER]
         ]
       ]
     ]
@@ -306,9 +373,8 @@
   #v(1.5em)
   
   #align(center)[
-    #box(stroke: 1pt + rgb("#7aa2f7"), inset: 8pt, radius: 4pt)[
-      *Asimetría:* 
-      #text(font: "FiraCode Nerd Font Mono", size: 0.8em)[Coste(Atacante) $<<$ Coste(Objetivo)]
+    #box(stroke: 1pt + c_accent, inset: 8pt, radius: 4pt)[
+      *Asimetría:* #text(font: "FiraCode Nerd Font Mono", size: 0.8em)[Coste(Atacante) $<<$ Coste(Objetivo)]
     ]
   ]
 ]
@@ -325,217 +391,25 @@
 
   #align(center)[
     #block(
-      fill: rgb("#16161e"),
+      fill: c_code_bg,
       inset: 15pt,
       radius: 8pt,
       width: 55%,
-      stroke: (paint: rgb("#7aa2f7"), thickness: 2pt),
+      stroke: (paint: c_accent, thickness: 2pt),
       align(left)[
         #text(font: "FiraCode Nerd Font Mono", size: .9em)[
-          #text(fill: rgb("#9ece6a"), weight: "bold")[POST] /api/v1/submit HTTP/1.1 \
-          #text(fill: rgb("#7aa2f7"))[Host:] victim-server \
-          #text(fill: rgb("#7aa2f7"))[Content-Type:] application/json \
+          #text(fill: c_success, weight: "bold")[POST] /api/v1/submit HTTP/1.1 \
+          #text(fill: c_accent)[Host:] victim-server \
+          #text(fill: c_accent)[Content-Type:] application/json \
           \
           { \
             #h(2em) "query": "search_term", \
             #h(2em) "limit": 100 \
           }
-          #text(fill: rgb("#565f89"), style: "italic")[\<-- Body / Datos (Opcional)]
+          #text(fill: c_muted, style: "italic")[\<-- Body / Datos (Opcional)]
         ]
       ]
     )
-  ]
-]
-
-#slide[
-  #align(center)[= Botnets: Infraestructura Distribuida]
-  #v(1em)
-
-  #grid(
-    columns: (1.3fr, 0.7fr),
-    gutter: 2em,
-    align(horizon)[
-      #block(fill: rgb("#24283b"), inset: 1em, radius: 8pt, width: 100%)[
-        #accent[Definición] \
-        #v(0.2em)
-        #text(size: 0.8em)[Red de dispositivos infectados ("Zombies") operados por un actor central ("Botmaster") sin el conocimiento de sus propietarios.]
-      ]
-      
-      #v(1em)
-      
-      #text(size: 0.75em)[
-        - *Amplificación:* 1 Orden $->$ N Ataques.
-        - *Anonimato:* El tráfico no viene del atacante.
-        - *Resiliencia:* Si un nodo cae, quedan miles.
-      ]
-    ],
-    
-    align(center + horizon)[
-      #block(
-        stroke: (paint: rgb("#565f89"), dash: "dashed"), 
-        radius: 8pt, 
-        inset: 1em,
-        fill: rgb("#16161e")
-      )[
-        #stack(dir: ttb, spacing: 0.3em,
-          // Botmaster
-          circle(radius: 12pt, fill: rgb("#f7768e")),
-          text(size: 0.6em, fill: rgb("#f7768e"), weight: "bold")[Botmaster],
-          
-          v(0.2em),
-          text(fill: rgb("#565f89"))[$ arrow.b $],
-          v(0.2em),
-          
-          // Bots Grid
-          grid(
-            columns: (1fr, 1fr, 1fr),
-            gutter: 0.5em,
-            circle(radius: 8pt, fill: rgb("#7aa2f7")),
-            circle(radius: 8pt, fill: rgb("#7aa2f7")),
-            circle(radius: 8pt, fill: rgb("#7aa2f7"))
-          ),
-          text(size: 0.6em, fill: rgb("#7aa2f7"))[Zombies]
-        )
-      ]
-    ]
-  )
-]
-
-#slide[
-  #align(center + horizon)[
-    #text(size: 2em, weight: "bold", fill: rgb("#f7768e"))[A Romper Cosas]
-    
-    #v(1em)
-    
-    #block(
-      fill: rgb("#16161e"),
-      inset: 1em,
-      radius: 8pt,
-      stroke: (paint: rgb("#7aa2f7"), thickness: 2pt),
-      width: 90%,
-      align(left)[
-        #text(font: "FiraCode Nerd Font Mono", size: 0.85em)[
-          #text(fill: rgb("#9ece6a"))[user\@botnet:~\$] python3 bot.py \
-          \
-          #text(fill: rgb("#e0af68"))[⚠] Connecting to C&C Master... \
-          #text(fill: rgb("#9ece6a"))[✔] Connection Established. \
-          \
-          #text(fill: rgb("#9ece6a"))[user\@botnet:~\$] \_
-        ]
-      ]
-    )
-    
-    #v(1em)
-    #text(size: 0.9em, fill: rgb("#a9b1d6"))[Abrid vuestras terminales.]
-  ]
-]
-
-#slide[
-  #align(center)[= Arquitectura del Objetivo]
-  #v(1em)
-
-  #align(center)[
-    #stack(
-      dir: ttb,
-      spacing: 0.3em, // Espaciado muy ajustado entre niveles
-
-      // Flujo de Entrada
-      text(size: 0.7em)[Conexión Exterior],
-      text(fill: rgb("#7aa2f7"), size: 0.8em)[$ arrow.b $],
-
-      // Capa Kernel (Base)
-      block(
-        fill: rgb("#414868"),
-        width: 60%,
-        radius: 4pt,
-        inset: 0.5em,
-        stroke: 1pt + rgb("#565f89"),
-        text(weight: "bold", fill: rgb("#c0caf5"), size: 0.9em)[Linux Kernel (Host)]
-      ),
-
-      text(fill: rgb("#7aa2f7"), size: 0.8em)[$ arrow.b $],
-
-      // Rejilla
-      grid(
-        columns: (1fr, 0.6fr),
-        gutter: 1.5em,
-
-        // IZQUIERDA: Docker
-        block(
-          stroke: (paint: rgb("#7aa2f7"), dash: "dashed", thickness: 2pt),
-          radius: 8pt,
-          inset: 0.8em, // Padding reducido
-          width: 100%,
-          stack(
-            dir: ttb,
-            spacing: 0.4em,
-            text(size: 0.7em, fill: rgb("#7aa2f7"), weight: "bold")[DOCKER CONTAINER],
-            
-            block(fill: rgb("#1a1b26"), stroke: rgb("#9ece6a"), width: 100%, inset: 0.5em, radius: 4pt, text(size: 0.9em)[NGINX]),
-            text(fill: rgb("#9ece6a"), size: 0.6em)[$ arrow.b $],
-            block(fill: rgb("#1a1b26"), stroke: rgb("#f7768e"), width: 100%, inset: 0.5em, radius: 4pt, text(size: 0.9em)[FLASK APP])
-          )
-        ),
-
-        // DERECHA: Bare Metal
-        block(
-          fill: rgb("#16161e"),
-          stroke: (paint: rgb("#565f89"), thickness: 1pt),
-          radius: 8pt,
-          inset: 0.8em,
-          width: 100%,
-          stack(
-            dir: ttb,
-            spacing: 0.6em,
-            text(size: 0.7em, style: "italic", fill: rgb("#565f89"))[Bare Metal / Host],
-            block(fill: rgb("#1a1b26"), stroke: 1pt + rgb("#a9b1d6"), width: 100%, inset: 0.4em, radius: 4pt, text(size: 0.8em)[htop]),
-            block(fill: rgb("#1a1b26"), stroke: 1pt + rgb("#a9b1d6"), width: 100%, inset: 0.4em, radius: 4pt, text(size: 0.8em)[SSH])
-          )
-        )
-      )
-    )
-  ]
-]
-
-#slide[
-  #align(center + horizon)[
-    = Direcciones IP
-    
-    #v(2em)
-    
-    #grid(
-      columns: (1fr, 1fr),
-      gutter: 2em,
-      align(center)[
-        #text(weight: "bold", fill: rgb("#f7768e"))[OBJETIVO (Víctima)]
-        #v(0.5em)
-        #block(
-          fill: rgb("#24283b"),
-          stroke: (paint: rgb("#f7768e"), thickness: 2pt, dash: "dashed"),
-          inset: 1.5em,
-          radius: 12pt,
-          width: 100%
-        )[
-          #text(font: "FiraCode Nerd Font Mono", size: 1.8em, weight: "bold", fill: rgb("#f7768e"))[192.168.X.X]
-        ]
-      ],
-      align(center)[
-        #text(weight: "bold", fill: rgb("#7aa2f7"))[BOT (Zombie)]
-        #v(0.5em)
-        #block(
-          fill: rgb("#24283b"),
-          stroke: (paint: rgb("#7aa2f7"), thickness: 2pt, dash: "dashed"),
-          inset: 1.5em,
-          radius: 12pt,
-          width: 100%
-        )[
-          #text(font: "FiraCode Nerd Font Mono", size: 1.8em, weight: "bold", fill: rgb("#7aa2f7"))[192.168.Y.Y]
-        ]
-      ]
-    )
-    
-    #v(2em)
-    #text(size: 0.8em, fill: rgb("#a9b1d6"))[Configurad estas IPs en `bot.py`]
   ]
 ]
 
@@ -556,6 +430,156 @@
 ]
 
 #slide[
+  #align(center + horizon)[
+    #text(size: 2em, weight: "bold", fill: c_alert)[A Romper Cosas]
+    
+    #v(1em)
+    
+    #block(
+      fill: c_code_bg,
+      inset: 1em,
+      radius: 8pt,
+      stroke: (paint: c_accent, thickness: 2pt),
+      width: 90%,
+      align(left)[
+        #text(font: "FiraCode Nerd Font Mono", size: 0.85em)[
+          #text(fill: c_success)[user\@botnet:~\$] python3 bot.py \
+          \
+          #text(fill: c_warning)[⚠] Connecting to C&C Master... \
+          #text(fill: c_success)[✔] Connection Established. \
+          \
+          #text(fill: c_success)[user\@botnet:~\$] \_
+        ]
+      ]
+    )
+    
+    #v(1em)
+    #text(size: 0.9em, fill: c_text)[Abrid vuestras terminales.]
+  ]
+]
+
+#slide[
+  #align(center)[= Arquitectura del Objetivo]
+  #v(1em)
+
+  #align(center)[
+    #stack(
+      dir: ttb,
+      spacing: 0.3em, // Espaciado muy ajustado entre niveles
+
+      // Flujo de Entrada
+      text(size: 0.7em)[Conexión Exterior],
+      text(fill: c_accent, size: 0.8em)[$ arrow.b $],
+
+      // Capa Kernel (Base)
+      block(
+        fill: c_header,
+        width: 80%,
+        radius: 4pt,
+        inset: 0.5em,
+        stroke: 1pt + c_muted,
+        text(weight: "bold", fill: c_code, size: 0.9em)[Linux Kernel (Host)]
+      ),
+
+
+      // Rejilla
+      grid(
+        columns: (1fr, 0.6fr),
+        gutter: 1.5em,
+
+        // IZQUIERDA: Docker
+        stack(
+          dir: ttb,
+          spacing: .4em,
+          text(fill: c_accent, size: 0.8em)[$ arrow.b $],
+          block(
+            stroke: (paint: c_accent, dash: "dashed", thickness: 2pt),
+            radius: 8pt,
+            inset: 0.8em, // Padding reducido
+            width: 100%,
+            stack(
+              dir: ttb,
+              spacing: 0.4em,
+              text(size: 0.7em, fill: c_accent, weight: "bold")[DOCKER CONTAINER],
+              
+              block(fill: c_bg, stroke: c_success, width: 100%, inset: 0.5em, radius: 4pt, text(size: 0.9em)[NGINX]),
+              text(fill: c_success, size: 0.6em)[$ arrow.b $],
+              block(fill: c_bg, stroke: c_alert, width: 100%, inset: 0.5em, radius: 4pt, text(size: 0.9em)[FLASK APP]),
+              text(fill: c_success, size: 0.6em)[$ arrow.t $],
+              block(fill: c_bg, stroke: c_accent, width: 100%, inset: 0.5em, radius: 4pt, text(size: 0.9em)[NETDATA])
+            )
+          ),
+        ),
+
+        // DERECHA: Bare Metal
+        stack(
+          dir: ttb,
+          spacing: .4em,
+          text(fill: c_accent, size: 0.8em)[$ arrow.b $],
+          block(
+            fill: c_code_bg,
+            stroke: (paint: c_muted, thickness: 1pt),
+            radius: 8pt,
+            inset: 0.8em,
+            width: 100%,
+            stack(
+              dir: ttb,
+              spacing: 0.6em,
+              text(size: 0.7em, style: "italic", fill: c_muted)[Bare Metal / Host],
+              block(fill: c_bg, stroke: 1pt + c_text, width: 100%, inset: 0.4em, radius: 4pt, text(size: 0.8em)[htop]),
+              block(fill: c_bg, stroke: 1pt + c_text, width: 100%, inset: 0.4em, radius: 4pt, text(size: 0.8em)[SSH])
+            )
+          )
+        )
+      )
+    )
+  ]
+]
+
+#slide[
+  #align(center + horizon)[
+    = Direcciones IP
+    
+    #v(2em)
+    
+    #grid(
+      columns: (1fr, 1fr),
+      gutter: 2em,
+      align(center)[
+        #text(weight: "bold", fill: c_alert)[OBJETIVO (Víctima)]
+        #v(0.5em)
+        #block(
+          fill: c_block,
+          stroke: (paint: c_alert, thickness: 2pt, dash: "dashed"),
+          inset: 1.5em,
+          radius: 12pt,
+          width: 100%
+        )[
+          #text(font: "FiraCode Nerd Font Mono", size: 1.8em, weight: "bold", fill: c_alert)[192.168.X.X]
+        ]
+      ],
+      align(center)[
+        #text(weight: "bold", fill: c_accent)[BOT (Zombie)]
+        #v(0.5em)
+        #block(
+          fill: c_block,
+          stroke: (paint: c_accent, thickness: 2pt, dash: "dashed"),
+          inset: 1.5em,
+          radius: 12pt,
+          width: 100%
+        )[
+          #text(font: "FiraCode Nerd Font Mono", size: 1.8em, weight: "bold", fill: c_accent)[192.168.Y.Y]
+        ]
+      ]
+    )
+    
+    #v(2em)
+    #text(size: 0.8em, fill: c_text)[Descargad los recursos en #text(weight: "bold", fill: c_alert)[http://192.168.X.X/static]]
+  ]
+]
+
+
+#slide[
   #align(center)[= Objetivo 1: Workers (Bloqueo)]
   #v(0.5em)
 
@@ -563,7 +587,7 @@
     columns: (1.1fr, 0.9fr),
     gutter: 1.5em,
     align(horizon)[
-      #text(weight: "bold", fill: rgb("#7aa2f7"), size: 1.1em)[Vulnerabilidad: SSRF Síncrono]
+      #text(weight: "bold", fill: c_accent, size: 1.1em)[Vulnerabilidad: SSRF Síncrono]
       #v(0.5em)
       #text(size: 0.8em)[
         El endpoint `/monitor` usa `requests.get()` de forma síncrona.
@@ -575,19 +599,19 @@
     ],
     align(center + horizon)[
       #block(
-        fill: rgb("#16161e"),
-        stroke: (paint: rgb("#7aa2f7"), thickness: 2pt),
+        fill: c_code_bg,
+        stroke: (paint: c_accent, thickness: 2pt),
         inset: 1em,
         radius: 8pt,
         width: 100%,
         align(left)[
-          #text(fill: rgb("#a9b1d6"), weight: "bold")[Payload:]
+          #text(fill: c_text, weight: "bold")[Payload:]
           #v(0.5em)
           #text(font: "FiraCode Nerd Font Mono", size: 0.8em)[
-            #text(fill: rgb("#9ece6a"), weight: "bold")[GET] /monitor?target=... HTTP/1.1 \
+            #text(fill: c_success, weight: "bold")[GET] /monitor?target=... HTTP/1.1 \
             \
             Target URL: \
-            #text(fill: rgb("#e0af68"), size: 0.7em)[https://httpbin.org/delay/5]
+            #text(fill: c_warning, size: 0.7em)[https://httpbin.org/delay/5]
           ]
         ]
       )
@@ -602,7 +626,7 @@
     columns: (1fr, 1fr),
     gutter: 2em,
     align(horizon)[
-      #text(weight: "bold", fill: rgb("#7aa2f7"), size: 1.2em)[Vulnerabilidad: Complejidad Algorítmica]
+      #text(weight: "bold", fill: c_accent, size: 1.2em)[Vulnerabilidad: Complejidad Algorítmica]
       #v(1em)
       #text(size: 0.85em)[
         El endpoint `/pi` utiliza el método de Monte Carlo para estimar $pi$.
@@ -613,20 +637,20 @@
     ],
     align(center + horizon)[
       #block(
-        fill: rgb("#16161e"),
-        stroke: (paint: rgb("#7aa2f7"), thickness: 2pt),
+        fill: c_code_bg,
+        stroke: (paint: c_accent, thickness: 2pt),
         inset: 1.5em,
         radius: 8pt,
         width: 100%,
         align(left)[
-          #text(fill: rgb("#a9b1d6"), weight: "bold")[Payload:]
+          #text(fill: c_text, weight: "bold")[Payload:]
           #v(0.5em)
           #text(font: "FiraCode Nerd Font Mono", size: 0.9em)[
-            #text(fill: rgb("#9ece6a"), weight: "bold")[GET] /pi?iterations=... HTTP/1.1 \
+            #text(fill: c_success, weight: "bold")[GET] /pi?iterations=... HTTP/1.1 \
             \
             Iterations: \
-            #text(fill: rgb("#e0af68"))[5000000] \
-            #text(size: 0.6em, style: "italic", fill: rgb("#565f89"))[(Cuanto más alto, más daño)]
+            #text(fill: c_warning)[5000000] \
+            #text(size: 0.6em, style: "italic", fill: c_muted)[(Cuanto más alto, más daño)]
           ]
         ]
       )
@@ -642,7 +666,7 @@
     columns: (1fr, 1fr),
     gutter: 2em,
     align(horizon)[
-      #text(weight: "bold", fill: rgb("#f7768e"), size: 1.2em)[Vulnerabilidad: Memory Leak Controlado]
+      #text(weight: "bold", fill: c_alert, size: 1.2em)[Vulnerabilidad: Memory Leak Controlado]
       #v(1em)
       #text(size: 0.85em)[
         El endpoint `/allocations` reserva espacio en memoria con caducidad.
@@ -653,24 +677,135 @@
     ],
     align(center + horizon)[
       #block(
-        fill: rgb("#16161e"),
-        stroke: (paint: rgb("#f7768e"), thickness: 2pt), // Rojo por ser POST/Peligroso
+        fill: c_code_bg,
+        stroke: (paint: c_alert, thickness: 2pt), // Rojo por ser POST/Peligroso
         inset: 1.5em,
         radius: 8pt,
         width: 100%,
         align(left)[
-          #text(fill: rgb("#a9b1d6"), weight: "bold")[Payload:]
+          #text(fill: c_text, weight: "bold")[Payload:]
           #v(0.5em)
           #text(font: "FiraCode Nerd Font Mono", size: 0.9em)[
-            #text(fill: rgb("#f7768e"), weight: "bold")[POST] /allocations HTTP/1.1 \
-            #text(fill: rgb("#7aa2f7"))[Content-Type:] application/json \
+            #text(fill: c_alert, weight: "bold")[POST] /allocations HTTP/1.1 \
+            #text(fill: c_accent)[Content-Type:] application/json \
             \
             { \
-              #h(2em) "mb": #text(fill: rgb("#e0af68"))[500] \
+              #h(2em) "mb": #text(fill: c_warning)[500] \
             }
           ]
         ]
       )
     ]
   )
+]
+
+#slide[
+  #align(center)[= Mitigación: Arquitectura Defensiva]
+  #v(1.5em)
+
+  #grid(
+    columns: (1fr, 1fr, 1fr),
+    gutter: 1.5em,
+    
+    // --- NIVEL 1: EDGE (Cloudflare) ---
+    block(
+      fill: c_code_bg,
+      stroke: (paint: c_warning, thickness: 2pt),
+      radius: 8pt,
+      inset: 1em,
+      height: 14.5em,
+      width: 100%,
+      align(center)[
+        #text(weight: "bold", fill: c_warning, size: 1.3em)[Edge]
+        #align(left + horizon)[
+          #text(size: 0.75em)[
+            - *CDN / Proxy:* Oculta tu IP Real para evitar ataques directos.
+            - *WAF:* Reglas automáticas contra bots.
+            - *Challenge:* Captchas/JS si detecta anomalías.
+          ]
+        ]
+      ]
+    ),
+
+    // --- NIVEL 2: GATEWAY (Nginx) ---
+    block(
+      fill: c_code_bg,
+      stroke: (paint: c_success, thickness: 2pt),
+      radius: 8pt,
+      inset: 1em,
+      height: 14.5em,
+      width: 100%,
+      align(center)[
+        #text(weight: "bold", fill: c_success, size: 1.3em)[Gateway]
+        #align(left + horizon)[
+          #text(size: 0.75em)[
+            - *Rate Limit:* Frena IPs agresivas (`limit_req`).
+            - *Caching:* Servir desde RAM evita tocar la CPU.
+            - *Timeouts:* Cortar conexiones lentas (Slowloris).
+          ]
+        ]
+      ]
+    ),
+
+    // --- NIVEL 3: APPLICATION (Python) ---
+    block(
+      fill: c_code_bg,
+      stroke: (paint: c_accent, thickness: 2pt),
+      radius: 8pt,
+      inset: 1em,
+      height: 14.5em,
+      width: 100%,
+      align(center)[
+        #text(weight: "bold", fill: c_accent, size: 1.3em)[Application]
+        #align(left + horizon)[
+          #text(size: 0.75em)[
+            - *Validación:* Rechazar números absurdos.
+            - *Async:* Tareas pesadas a colas (Redis), nunca bloquear.
+            - *Cuotas:* Límites duros de RAM por proceso.
+          ]
+        ]
+      ]
+    )
+  )
+]
+
+#slide[
+  #align(center + horizon)[
+    #grid(
+      columns: (1fr, 1fr),
+      gutter: 1em,
+      
+      // --- COLUMNA IZQUIERDA ---
+      align(center + horizon)[
+        #text(size: 3em, weight: "bold", fill: c_accent)[\<EOF \/\>] 
+        #v(1em)
+        #text(size: 1.2em, fill: c_text)[Gracias por asistir.]
+        #v(1em)
+        #text(size: 0.9em, fill: c_muted)[SEIF | Jesús Blázquez]
+      ],
+      
+      // --- COLUMNA DERECHA ---
+      align(center + horizon)[
+        #block(
+          fill: c_code_bg,
+          stroke: (paint: c_muted, thickness: 2pt),
+          inset: 1.5em,
+          radius: 8pt,
+          width: 100%,
+          align(left)[
+            #text(font: "FiraCode Nerd Font Mono", size: 0.8em)[
+              #text(fill: c_success)[user\@bot:~\$] shred -u history \
+              #text(fill: c_muted)[> Traces wiped.] \
+              \
+              #text(fill: c_success)[user\@bot:~\$] ./questions.sh \
+              #text(fill: c_warning)[? Waiting for input...] \
+              \
+              #text(fill: c_success)[user\@bot:~\$] exit \
+              #text(fill: c_alert)[Session closed.]
+            ]
+          ]
+        )
+      ]
+    )
+  ]
 ]
