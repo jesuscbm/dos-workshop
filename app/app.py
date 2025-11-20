@@ -7,6 +7,13 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
+# Esto es lo que permite que la memoria mate al servidor. 
+# Reservar mucha memoria hace un OOM Kill y esto ralentiza el ritmo al que gunicorn
+# reemplaza los workers
+print("Iniciando worker...")
+time.sleep(2)
+print("Worker listo")
+
 # --- Resource: System Health ---
 @app.route("/health", methods=["GET"])
 def health_check():
