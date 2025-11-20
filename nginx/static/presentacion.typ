@@ -384,10 +384,10 @@
   #v(1em)
 
   #align(center)[
-    #text(size: 0.9em)[Protocolo de comunicación sin estado basado en el intercambio de peticiones y respuestas entre cliente y servidor.]
+    #text(size: 0.8em)[Protocolo de comunicación sin estado basado en el intercambio de peticiones y respuestas entre cliente y servidor.]
   ]
   
-  #v(1em)
+  #v(.5em)
 
   #align(center)[
     #block(
@@ -397,7 +397,7 @@
       width: 55%,
       stroke: (paint: c_accent, thickness: 2pt),
       align(left)[
-        #text(font: "FiraCode Nerd Font Mono", size: .9em)[
+        #text(font: "FiraCode Nerd Font Mono", size: .8em)[
           #text(fill: c_success, weight: "bold")[POST] /api/v1/submit HTTP/1.1 \
           #text(fill: c_accent)[Host:] victim-server \
           #text(fill: c_accent)[Content-Type:] application/json \
@@ -410,6 +410,11 @@
         ]
       ]
     )
+  ]
+
+  #align(center)[
+
+    #text(fill: c_success)[\$] `curl -X GET -H "Header: Content" -d '{"key":"value"}' http://url.com`
   ]
 ]
 
@@ -459,82 +464,95 @@
 ]
 
 #slide[
-  #align(center)[= Arquitectura del Objetivo]
-  #v(1em)
+  #align(center)[= Protocolo de Actuación]
+  #v(0.5em)
 
-  #align(center)[
-    #stack(
+  #grid(
+    columns: (1fr, 1fr),
+    gutter: 1.5em,
+
+    // --- COLUMNA 1: INTELIGENCIA ---
+    stack(
       dir: ttb,
-      spacing: 0.3em, // Espaciado muy ajustado entre niveles
+      spacing: 0.8em, // Espaciado reducido
+      align(center)[#text(fill: c_accent, weight: "bold", size: 1.1em)[Fase 1: Reconocimiento]],
 
-      // Flujo de Entrada
-      text(size: 0.7em)[Conexión Exterior],
-      text(fill: c_accent, size: 0.8em)[$ arrow.b $],
-
-      // Capa Kernel (Base)
-      block(
-        fill: c_header,
-        width: 80%,
-        radius: 4pt,
-        inset: 0.5em,
-        stroke: 1pt + c_muted,
-        text(weight: "bold", fill: c_code, size: 0.9em)[Linux Kernel (Host)]
-      ),
-
-
-      // Rejilla
-      grid(
-        columns: (1fr, 0.6fr),
-        gutter: 1.5em,
-
-        // IZQUIERDA: Docker
-        stack(
-          dir: ttb,
-          spacing: .4em,
-          text(fill: c_accent, size: 0.8em)[$ arrow.b $],
-          block(
-            stroke: (paint: c_accent, dash: "dashed", thickness: 2pt),
-            radius: 8pt,
-            inset: 0.8em, // Padding reducido
-            width: 100%,
-            stack(
-              dir: ttb,
-              spacing: 0.4em,
-              text(size: 0.7em, fill: c_accent, weight: "bold")[DOCKER CONTAINER],
-              
-              block(fill: c_bg, stroke: c_success, width: 100%, inset: 0.5em, radius: 4pt, text(size: 0.9em)[NGINX]),
-              text(fill: c_success, size: 0.6em)[$ arrow.b $],
-              block(fill: c_bg, stroke: c_alert, width: 100%, inset: 0.5em, radius: 4pt, text(size: 0.9em)[FLASK APP]),
-              text(fill: c_success, size: 0.6em)[$ arrow.t $],
-              block(fill: c_bg, stroke: c_accent, width: 100%, inset: 0.5em, radius: 4pt, text(size: 0.9em)[NETDATA])
-            )
-          ),
-        ),
-
-        // DERECHA: Bare Metal
-        stack(
-          dir: ttb,
-          spacing: .4em,
-          text(fill: c_accent, size: 0.8em)[$ arrow.b $],
-          block(
-            fill: c_code_bg,
-            stroke: (paint: c_muted, thickness: 1pt),
-            radius: 8pt,
-            inset: 0.8em,
-            width: 100%,
-            stack(
-              dir: ttb,
-              spacing: 0.6em,
-              text(size: 0.7em, style: "italic", fill: c_muted)[Bare Metal / Host],
-              block(fill: c_bg, stroke: 1pt + c_text, width: 100%, inset: 0.4em, radius: 4pt, text(size: 0.8em)[htop]),
-              block(fill: c_bg, stroke: 1pt + c_text, width: 100%, inset: 0.4em, radius: 4pt, text(size: 0.8em)[SSH])
-            )
+      // Paso 1
+      block(fill: c_code_bg, inset: 0.8em, radius: 8pt, width: 100%, stroke: (paint: c_muted, thickness: 1pt))[
+        #grid(columns: (auto, 1fr), gutter: 0.8em,
+          align(horizon)[#text(weight: "bold", fill: c_accent, size: 1.4em)[1.]],
+          stack(dir: ttb, spacing: 0.4em,
+            text(weight: "bold", fill: c_text, size: 0.95em)[Discovery],
+            text(size: 0.55em)[Buscar endpoints vulnerables usando fuzzing.]
           )
         )
-      )
+      ],
+
+      // Paso 2
+      block(fill: c_code_bg, inset: 0.8em, radius: 8pt, width: 100%, stroke: (paint: c_muted, thickness: 1pt))[
+        #grid(columns: (auto, 1fr), gutter: 0.8em,
+          align(horizon)[#text(weight: "bold", fill: c_accent, size: 1.4em)[2.]],
+          stack(dir: ttb, spacing: 0.4em,
+            text(weight: "bold", fill: c_text, size: 0.95em)[Fingerprinting],
+            text(size: 0.55em)[Extraer información sobre los endpoints usando curl]
+          )
+        )
+      ],
+
+      // Paso 3
+      block(fill: c_code_bg, inset: 0.8em, radius: 8pt, width: 100%, stroke: (paint: c_muted, thickness: 1pt))[
+        #grid(columns: (auto, 1fr), gutter: 0.8em,
+          align(horizon)[#text(weight: "bold", fill: c_accent, size: 1.4em)[3.]],
+          stack(dir: ttb, spacing: 0.4em,
+            text(weight: "bold", fill: c_text, size: 0.95em)[Prototipado],
+            text(size: 0.55em)[Diseñar manualmente las requests con la que atacaremos cada endpoint.]
+          )
+        )
+      ]
+    ),
+
+    // --- COLUMNA 2: ARMAMENTO ---
+    stack(
+      dir: ttb,
+      spacing: 0.8em, // Espaciado reducido
+      align(center)[#text(fill: c_alert, weight: "bold", size: 1.1em)[Fase 2: Armamento]],
+
+      // Paso 4
+      block(fill: c_code_bg, inset: 0.8em, radius: 8pt, width: 100%, stroke: (paint: c_alert, thickness: 1pt))[
+        #grid(columns: (auto, 1fr), gutter: 0.8em,
+          align(horizon)[#text(weight: "bold", fill: c_alert, size: 1.4em)[4.]],
+          stack(dir: ttb, spacing: 0.4em,
+            text(weight: "bold", fill: c_text, size: 0.95em)[Scripting],
+            text(size: 0.55em)[Programar la lógica de ataque en el archivo del bot.]
+          )
+        )
+      ],
+
+      // Paso 5
+      block(fill: c_code_bg, inset: 0.8em, radius: 8pt, width: 100%, stroke: (paint: c_alert, thickness: 1pt))[
+        #grid(columns: (auto, 1fr), gutter: 0.8em,
+          align(horizon)[#text(weight: "bold", fill: c_alert, size: 1.4em)[5.]],
+          stack(dir: ttb, spacing: 0.4em,
+            text(weight: "bold", fill: c_text, size: 0.95em)[Inyección],
+            text(size: 0.55em)[Inyectar el archivo del bot al zombie. Iniciar C&C en nuestro propio ordenador]
+          )
+        )
+      ],
+
+      // Paso 6
+      block(fill: c_block, inset: 0.8em, radius: 8pt, width: 100%, stroke: (paint: c_success, thickness: 2pt))[
+        #grid(columns: (auto, 1fr), gutter: 0.8em,
+          align(horizon)[#text(weight: "bold", fill: c_success, size: 1.4em)[6.]],
+          stack(dir: ttb, spacing: 0.4em,
+            text(weight: "bold", fill: c_success, size: 0.95em)[Atacar],
+            text(size: 0.55em)[Avísanos de que estás listo. Empezar el ataque cuando te demos el visto bueno]
+          )
+        )
+      ]
     )
-  ]
+  )
 ]
+
 
 #slide[
   #align(center + horizon)[

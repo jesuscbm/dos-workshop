@@ -2,6 +2,8 @@
 
 This repository contains the infrastructure and tools for the Layer 7 Denial of Service workshop.
 
+![Póster de la actividad](./nginx/static/poster.png)
+
 ## Network Topology
 
 The three actors, Attacker, Zombie and Server must all be connected to the same local network. The network must be secure and disconnected from the internet
