@@ -4,3 +4,8 @@ services:
     build: .
     ports:
       - "80:80"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: 3

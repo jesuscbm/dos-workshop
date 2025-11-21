@@ -37,7 +37,9 @@
     #v(1em)
     Protocolos y agotamiento de recursos
     
-    #v(2em)
+
+    #v(1em)
+      #image("logo.png", height:4em)
     #text(size: 0.6em)[ SEIF, Jesús Blázquez | UAM]
   ]
 ]
@@ -612,7 +614,7 @@
         
         Si le pedimos que conecte a una *API externa lenta*, el Worker de Gunicorn se queda "congelado" esperando la respuesta hasta el timeout.
         
-        *Estrategia:* Usar servicios públicos de delay para bloquear el worker sin gastar nuestra CPU.
+        *Estrategia:* Usar una dirección pública que tarde en responder, o un blackhole en nuestro propio dispositivo.
       ]
     ],
     align(center + horizon)[
@@ -626,10 +628,14 @@
           #text(fill: c_text, weight: "bold")[Payload:]
           #v(0.5em)
           #text(font: "FiraCode Nerd Font Mono", size: 0.8em)[
-            #text(fill: c_success, weight: "bold")[GET] /monitor?target=... HTTP/1.1 \
-            \
-            Target URL: \
-            #text(fill: c_warning, size: 0.7em)[https://httpbin.org/delay/5]
+          #text(fill: c_success, weight: "bold")[GET] /monitor?target=... HTTP/1.1 \
+          \
+          Target URL: \
+          #text(fill: c_warning, size: 0.7em)[https://httpbin.org/delay/5] \
+          \
+          Si no hay internet: \
+          #text(fill: c_success, size: 0.8em)[\$] `nc -lkp 9000` \
+          #text(fill: c_warning, size: 0.7em)[http://\<TU-IP\>:9000] \
           ]
         ]
       )
