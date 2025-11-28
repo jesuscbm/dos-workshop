@@ -139,7 +139,7 @@
     align(center)[
       #text(size: 2em, fill: c_muted)[DÓNDE] \
       #v(0.2em)
-      #text(size: 3em, weight: "bold", fill: c_text)[AULA XX] \
+      #text(size: 3em, weight: "bold", fill: c_text)[AULA 4] \
       #text(size: 2.2em, fill: c_text)[Escuela Politécnica]
     ]
   )

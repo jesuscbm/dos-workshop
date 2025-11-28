@@ -1,178 +1,232 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Taller DoS: Descarga</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <style>
-        :root {
-            --bg: #1a1b26;
-            --fg: #a9b1d6;
-            --blue: #7aa2f7;
-            --red: #f7768e;
-            --green: #9ece6a;
-            --dark: #24283b;
-            --border: #414868;
-        }
+      :root {
+        --bg: #1a1b26;
+        --fg: #a9b1d6;
+        --blue: #7aa2f7;
+        --red: #f7768e;
+        --green: #9ece6a;
+        --dark: #24283b;
+        --border: #414868;
+      }
 
-        body {
-            background-color: var(--bg);
-            color: var(--fg);
-            font-family: 'Courier New', monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-        }
+      body {
+        background-color: var(--bg);
+        color: var(--fg);
+        font-family: "Courier New", monospace;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+      }
 
-        h1 { color: var(--blue); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2rem; }
-        
-        .container {
-            width: 90%;
-            max-width: 600px;
-            background: var(--dark);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+      h1 {
+        color: var(--blue);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 2rem;
+      }
 
-        .file-list { list-style: none; padding: 0; margin: 0; }
+      .container {
+        width: 90%;
+        max-width: 600px;
+        background: var(--dark);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
 
-        .file-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-            transition: background 0.2s;
-        }
+      .file-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
 
-        .file-item:last-child { border-bottom: none; }
-        .file-item:hover { background: rgba(122, 162, 247, 0.1); }
+      .file-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid var(--border);
+        transition: background 0.2s;
+      }
 
-        .file-info { display: flex; align-items: center; gap: 1rem; }
-        .icon { font-size: 1.2rem; width: 25px; text-align: center; }
+      .file-item:last-child {
+        border-bottom: none;
+      }
+      .file-item:hover {
+        background: rgba(122, 162, 247, 0.1);
+      }
 
-        /* Colores por tipo */
-        .py { color: var(--green); }
-        .txt { color: var(--fg); }
-        .pdf { color: var(--red); }
-        .typ { color: var(--blue); }
+      .file-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .icon {
+        font-size: 1.2rem;
+        width: 25px;
+        text-align: center;
+      }
 
-        a.download-btn {
-            background: transparent;
-            color: var(--blue);
-            border: 1px solid var(--blue);
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
+      /* Colores por tipo */
+      .py {
+        color: var(--green);
+      }
+      .txt {
+        color: var(--fg);
+      }
+      .pdf {
+        color: var(--red);
+      }
+      .typ {
+        color: var(--blue);
+      }
 
-        a.download-btn:hover {
-            background: var(--blue);
-            color: var(--bg);
-        }
+      a.download-btn {
+        background: transparent;
+        color: var(--blue);
+        border: 1px solid var(--blue);
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        transition: all 0.2s;
+      }
 
-        .cmd-hint {
-            margin-top: 2rem;
-            font-size: 0.8rem;
-            color: #565f89;
-            text-align: center;
-            border-top: 1px solid var(--border);
-            padding-top: 1rem;
-        }
-        code { background: #16161e; padding: 2px 5px; border-radius: 3px; color: var(--green); }
+      a.download-btn:hover {
+        background: var(--blue);
+        color: var(--bg);
+      }
+
+      .cmd-hint {
+        margin-top: 2rem;
+        font-size: 0.8rem;
+        color: #565f89;
+        text-align: center;
+        border-top: 1px solid var(--border);
+        padding-top: 1rem;
+      }
+      code {
+        background: #16161e;
+        padding: 2px 5px;
+        border-radius: 3px;
+        color: var(--green);
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <h1><i class="fa-solid fa-network-wired"></i> Taller DoS</h1>
 
     <div class="container">
-        <ul class="file-list">
-            <!-- Scripts Python -->
-            <li class="file-item">
-                <div class="file-info">
-                    <i class="fa-brands fa-python icon py"></i>
-                    <span>bot.py</span>
-                </div>
-                <!-- Update: Path relativo y flag download -->
-                <a href="./bot.py" download class="download-btn"><i class="fa-solid fa-download"></i> .py</a>
-            </li>
+      <ul class="file-list">
+        <!-- Scripts Python -->
+        <li class="file-item">
+          <div class="file-info">
+            <i class="fa-brands fa-python icon py"></i>
+            <span>bot.py</span>
+          </div>
+          <!-- Update: Path relativo y flag download -->
+          <a href="./bot.py" download class="download-btn"
+            ><i class="fa-solid fa-download"></i> .py</a
+          >
+        </li>
 
-            <li class="file-item">
-                <div class="file-info">
-                    <i class="fa-solid fa-server icon py"></i>
-                    <span>cnc.py</span>
-                </div>
-                <a href="./cnc.py" download class="download-btn"><i class="fa-solid fa-download"></i> .py</a>
-            </li>
+        <li class="file-item">
+          <div class="file-info">
+            <i class="fa-solid fa-server icon py"></i>
+            <span>cnc.py</span>
+          </div>
+          <a href="./cnc.py" download class="download-btn"
+            ><i class="fa-solid fa-download"></i> .py</a
+          >
+        </li>
 
-            <li class="file-item">
-                <div class="file-info">
-                    <i class="fa-brands fa-python icon py"></i>
-                    <span>fuzzer.py</span>
-                </div>
-                <a href="./fuzzer.py" download class="download-btn"><i class="fa-solid fa-download"></i> .py</a>
-            </li>
+        <li class="file-item">
+          <div class="file-info">
+            <i class="fa-brands fa-python icon py"></i>
+            <span>fuzzer.py</span>
+          </div>
+          <a href="./fuzzer.py" download class="download-btn"
+            ><i class="fa-solid fa-download"></i> .py</a
+          >
+        </li>
 
-            <!-- Wordlists -->
-            <li class="file-item">
-                <div class="file-info">
-                    <i class="fa-solid fa-file-lines icon txt"></i>
-                    <span>wordlist.txt</span>
-                </div>
-                <a href="./wordlist.txt" download class="download-btn"><i class="fa-solid fa-download"></i> .txt</a>
-            </li>
+        <!-- Wordlists -->
+        <li class="file-item">
+          <div class="file-info">
+            <i class="fa-solid fa-file-lines icon txt"></i>
+            <span>wordlist.txt</span>
+          </div>
+          <a href="./wordlist.txt" download class="download-btn"
+            ><i class="fa-solid fa-download"></i> .txt</a
+          >
+        </li>
 
-            <!-- Presentación -->
-            <li class="file-item">
-                <div class="file-info">
-                    <i class="fa-solid fa-file-pdf icon pdf"></i>
-                    <span>presentacion.pdf</span>
-                </div>
-                <a href="./presentacion.pdf" download class="download-btn"><i class="fa-solid fa-download"></i> .pdf</a>
-            </li>
+        <!-- Presentación -->
+        <li class="file-item">
+          <div class="file-info">
+            <i class="fa-solid fa-file-pdf icon pdf"></i>
+            <span>presentacion.pdf</span>
+          </div>
+          <a href="./presentacion.pdf" download class="download-btn"
+            ><i class="fa-solid fa-download"></i> .pdf</a
+          >
+        </li>
 
-            <li class="file-item">
-                <div class="file-info">
-                    <i class="fa-solid fa-code icon typ"></i>
-                    <span>presentacion.typ</span>
-                </div>
-                <a href="./presentacion.typ" download class="download-btn"><i class="fa-solid fa-download"></i> .typ</a>
-            </li>
+        <li class="file-item">
+          <div class="file-info">
+            <i class="fa-solid fa-code icon typ"></i>
+            <span>presentacion.typ</span>
+          </div>
+          <a href="./presentacion.typ" download class="download-btn"
+            ><i class="fa-solid fa-download"></i> .typ</a
+          >
+        </li>
 
-            <!-- Póster -->
-            <li class="file-item">
-                <div class="file-info">
-                    <i class="fa-solid fa-file-pdf icon pdf"></i>
-                    <span>poster.pdf</span>
-                </div>
-                <a href="./poster.pdf" download class="download-btn"><i class="fa-solid fa-download"></i> .pdf</a>
-            </li>
+        <!-- Póster -->
+        <li class="file-item">
+          <div class="file-info">
+            <i class="fa-solid fa-file-pdf icon pdf"></i>
+            <span>poster.pdf</span>
+          </div>
+          <a href="./poster.pdf" download class="download-btn"
+            ><i class="fa-solid fa-download"></i> .pdf</a
+          >
+        </li>
 
-            <li class="file-item">
-                <div class="file-info">
-                    <i class="fa-solid fa-code icon typ"></i>
-                    <span>poster.typ</span>
-                </div>
-                <a href="./poster.typ" download class="download-btn"><i class="fa-solid fa-download"></i> .typ</a>
-            </li>
-        </ul>
+        <li class="file-item">
+          <div class="file-info">
+            <i class="fa-solid fa-code icon typ"></i>
+            <span>poster.typ</span>
+          </div>
+          <a href="./poster.typ" download class="download-btn"
+            ><i class="fa-solid fa-download"></i> .typ</a
+          >
+        </li>
+      </ul>
 
-        <div class="cmd-hint">
-            CLI User? <br>
-            <!-- Actualizado hint para reflejar la nueva estructura plana si aplica -->
-            <code>wget http://&lt;IP&gt;/static/bot.py</code>
-        </div>
+      <div class="cmd-hint">
+        <code
+          >Repositorio:
+          <a href="https://github.com/jesuscbm/dos-workshop" target="_blank"
+            >https://github.com/jesuscbm/dos-workshop</a
+          ></code
+        >
+      </div>
     </div>
-
-</body>
+  </body>
 </html>

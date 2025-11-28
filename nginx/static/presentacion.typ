@@ -575,7 +575,7 @@
           radius: 12pt,
           width: 100%
         )[
-          #text(font: "FiraCode Nerd Font Mono", size: 1.8em, weight: "bold", fill: c_alert)[192.168.X.X]
+          #text(font: "FiraCode Nerd Font Mono", size: 1.8em, weight: "bold", fill: c_alert)[192.168.1.66]
         ]
       ],
       align(center)[
@@ -588,13 +588,13 @@
           radius: 12pt,
           width: 100%
         )[
-          #text(font: "FiraCode Nerd Font Mono", size: 1.8em, weight: "bold", fill: c_accent)[192.168.Y.Y]
+          #text(font: "FiraCode Nerd Font Mono", size: 1.8em, weight: "bold", fill: c_accent)[192.168.1.79]
         ]
       ]
     )
     
     #v(2em)
-    #text(size: 0.8em, fill: c_text)[Descargad los recursos en #text(weight: "bold", fill: c_alert)[http://192.168.X.X/static]]
+    #text(size: 0.8em, fill: c_text)[Descargad los recursos en #text(weight: "bold", fill: c_alert)[http://192.168.1.66/static]]
   ]
 ]
 
@@ -831,5 +831,9 @@
         )
       ]
     )
+    #v(2em)
+    #align(center)[
+      #text(fill: c_success, size: .7em)[Todos los recursos están disponibles en #text(fill: c_accent)[https://github.com/jesuscbm/dos-workshop]]
+    ]
   ]
 ]
