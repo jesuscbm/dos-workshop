@@ -12,10 +12,10 @@ import sys
 import random
 
 # --- CONFIGURACIÓN ---
-CNC_IP = "192.168.0.17"   # IP del servidor CnC (tu ordenador)
+CNC_IP = "127.0.0.1"   # IP del servidor CnC (tu ordenador)
 CNC_PORT = 9999
 
-TARGET_IP = "192.168.0.17" # IP de la Víctima (Servidor a atacar)
+TARGET_IP = "127.0.0.1" # IP de la Víctima (Servidor a atacar)
 BASE_URL = f"http://{TARGET_IP}"
 
 # Número de hilos simultáneos
